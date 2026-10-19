@@ -1,28 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simple Personal Cashbook &amp; Expense Log - Under maintenance</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="site-status" content="maintenance">
-<meta name="description" content="This tool is temporarily offline while it is rebuilt.">
+<title>Personal Cashbook &amp; Expense Log</title>
+<meta name="description" content="Track daily cashflow, income, and expenses with a simple personal ledger.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://us-simple-personal-cashbook.enjoy-onepage.com/">
+<meta name="theme-color" content="#059669">
+<link rel="icon" href="/favicon.ico">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Personal Cashbook &amp; Expense Log">
+<meta property="og:title" content="Personal Cashbook &amp; Expense Log">
+<meta property="og:description" content="Track daily cashflow, income, and expenses with a simple personal ledger.">
+<meta property="og:url" content="https://us-simple-personal-cashbook.enjoy-onepage.com/">
+<meta property="og:image" content="https://us-simple-personal-cashbook.enjoy-onepage.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Personal Cashbook &amp; Expense Log">
+<meta name="twitter:description" content="Track daily cashflow, income, and expenses with a simple personal ledger.">
+<meta name="twitter:image" content="https://us-simple-personal-cashbook.enjoy-onepage.com/og-image.png">
+<link rel="alternate" type="application/rss+xml" title="Personal Cashbook RSS" href="https://us-simple-personal-cashbook.enjoy-onepage.com/rss.xml">
+<link rel="sitemap" type="application/xml" href="https://us-simple-personal-cashbook.enjoy-onepage.com/sitemap.xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://us-simple-personal-cashbook.enjoy-onepage.com/#webapp",
+      "name": "Personal Cashbook & Expense Log",
+      "url": "https://us-simple-personal-cashbook.enjoy-onepage.com/",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "inLanguage": "en",
+      "description": "An offline personal cashbook and ledger tracking daily income, expenses, running balances, category breakdowns, and savings rates.",
+      "image": "https://us-simple-personal-cashbook.enjoy-onepage.com/og-image.png",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://us-simple-personal-cashbook.enjoy-onepage.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does this cashbook protect my financial privacy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The application runs 100% client-side without bank logins or remote database syncing. All transactions, incomes, and balances reside exclusively inside your device's browser memory."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the net savings rate computed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The savings rate measures remaining net cashflow as a percentage of total income: (Total Income - Total Expenses) ÷ Total Income × 100."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I export my financial ledger to CSV or JSON?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can download your full ledger as a spreadsheet-compatible CSV file or a JSON backup file to archive or analyze in Microsoft Excel or Google Sheets."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this tool require bank credentials or account linking?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. This tool operates as an intentional manual cashbook. No banking passwords, account numbers, or personal identifying credentials are ever requested."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<!-- ADSENSE START: loader -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2228289204702106" crossorigin="anonymous"></script>
+<!-- ADSENSE END: loader -->
 <style>
-  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #0f172a; }
-  main { max-width: 560px; margin: 12vh auto; padding: 32px 24px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; }
-  h1 { font-size: 1.4rem; margin: 0 0 12px; }
-  p { line-height: 1.6; color: #334155; }
-  a { color: #1d4ed8; font-weight: 600; }
-  .tag { display: inline-block; font-size: .8rem; font-weight: 700; color: #92400e; background: #fef3c7; border-radius: 999px; padding: 4px 10px; margin-bottom: 14px; }
+:root{--bg:#f0fdf4;--card:#fff;--ink:#0f172a;--muted:#475569;--accent:#059669;--accent-hover:#047857;--line:#dcfce7;--income:#16a34a;--expense:#dc2626}
+*{box-sizing:border-box}
+html,body{margin:0;max-width:100%;overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-wrap:anywhere}
+.header{background:linear-gradient(135deg,#065f46,#059669);color:#fff;text-align:center;padding:26px 16px 22px}
+.header h1{margin:0;font-size:1.7rem}
+.header-sub{opacity:.92;margin-top:6px;font-size:.95rem}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 14px 8px}
+.grid2{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:1024px){.grid2{grid-template-columns:7fr 5fr;align-items:start}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin:14px 0}
+.grid2 .card{margin:0}
+.card h2{font-size:1.15rem;margin:4px 0 10px}
+.lbl{display:block;font-weight:600;margin:8px 0 4px;font-size:.92rem}
+input[type=text],input[type=number],input[type=date],select{width:100%;font:inherit;font-size:1rem;padding:8px 10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>div{flex:1 1 120px;min-width:0}
+.btn{font:inherit;border:1px solid #cbd5e1;background:#fff;color:var(--ink);border-radius:10px;padding:8px 13px;cursor:pointer;transition:background .15s}
+.btn:hover{background:#f8fafc}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.btn.primary:hover{background:var(--accent-hover)}
+.btn.sm{padding:4px 10px;font-size:.86rem;border-radius:8px}
+.btn-group{display:flex;gap:6px;margin-bottom:8px}
+.btn-toggle{flex:1;text-align:center;padding:7px;border:1px solid #cbd5e1;background:#f8fafc;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600}
+.btn-toggle.active-inc{background:var(--income);color:#fff;border-color:var(--income)}
+.btn-toggle.active-exp{background:var(--expense);color:#fff;border-color:var(--expense)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+
+/* Ledger Table */
+.ledger-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:12px 0}
+.ledger-table th,.ledger-table td{padding:6px 8px;border-bottom:1px solid #f1f5f9;text-align:left}
+.ledger-table th{background:#f8fafc;color:var(--muted);font-weight:600}
+.badge-inc{display:inline-block;padding:2px 6px;border-radius:4px;font-size:.72rem;font-weight:700;background:#dcfce7;color:#166534}
+.badge-exp{display:inline-block;padding:2px 6px;border-radius:4px;font-size:.72rem;font-weight:700;background:#fee2e2;color:#991b1b}
+.del-btn{color:#dc2626;background:none;border:none;cursor:pointer;font-weight:bold;padding:0 4px}
+
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+@media (max-width:600px){.metric-grid{grid-template-columns:1fr}}
+.metric-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px}
+.metric-val{font-size:1.55rem;font-weight:800;color:var(--accent);margin:2px 0}
+.metric-lbl{font-size:.82rem;color:var(--muted);font-weight:600;text-transform:uppercase}
+
+.hint{font-size:.86rem;color:var(--muted);margin:6px 0}
+.notice{border-color:#fcd34d;background:#fffbeb}
+.faq-item h3{font-size:1rem;margin:12px 0 4px}
+.faq-item p{margin:0;color:#334155}
+.src{font-size:.82rem;color:var(--muted)}
+.ad-box{max-width:1100px;margin:10px auto;padding:0 14px;background:transparent;overflow:hidden;text-align:center}
+.ad-top ins{max-height:90px}
+.footer{text-align:center;font-size:.85rem;color:var(--muted);padding:18px 14px 28px}
+.footer a{color:var(--muted);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;max-width:90vw}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){.toast{transition:none}}
 </style>
 </head>
 <body>
-<main>
-  <span class="tag">Under maintenance</span>
-  <h1>Simple Personal Cashbook &amp; Expense Log</h1>
-  <p>This tool is temporarily offline. We found that the previous version did not work the way it was described, so we took it down while we rebuild it properly.</p>
-  <p>Please check back later.</p>
-  <p><a href="https://enjoy-onepage.com/">Browse our other free tools</a></p>
+<header class="header">
+  <h1>Personal Cashbook &amp; Expense Log</h1>
+  <div class="header-sub">Daily Income &amp; Expense Ledger · Running Balances · 100% Private In-Browser</div>
+</header>
+
+<!-- ADSENSE START: top -->
+<div class="ad-box ad-top">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2228289204702106" data-ad-slot="3824727725" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<!-- ADSENSE END: top -->
+
+<main class="wrap">
+  <div class="grid2">
+    <!-- Ledger Entry Card -->
+    <section class="card" aria-labelledby="ledger-h">
+      <h2 id="ledger-h">💵 Daily Cashbook Ledger</h2>
+
+      <!-- Transaction Type Switch -->
+      <label class="lbl">Entry Type</label>
+      <div class="btn-group" role="radiogroup" aria-label="Transaction Type">
+        <button type="button" id="btnTypeExp" class="btn-toggle active-exp" aria-checked="true" role="radio">Expense (-)</button>
+        <button type="button" id="btnTypeInc" class="btn-toggle" aria-checked="false" role="radio">Income (+)</button>
+      </div>
+
+      <div class="row">
+        <div>
+          <label class="lbl" for="txDate">Date</label>
+          <input type="date" id="txDate">
+        </div>
+        <div style="flex:2 1 160px">
+          <label class="lbl" for="txDesc">Description</label>
+          <input type="text" id="txDesc" placeholder="e.g. Grocery Store, Client Payment">
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:6px">
+        <div>
+          <label class="lbl" for="txCategory">Category</label>
+          <select id="txCategory">
+            <!-- Dynamically populated based on type -->
+          </select>
+        </div>
+        <div>
+          <label class="lbl" for="txAmount">Amount ($ USD)</label>
+          <input type="number" id="txAmount" placeholder="0.00" min="0.01" step="0.01">
+        </div>
+        <div style="flex:0 0 auto;align-self:flex-end">
+          <button type="button" id="btnAddTx" class="btn primary" style="height:42px">+ Add Entry</button>
+        </div>
+      </div>
+
+      <!-- Ledger Table -->
+      <table class="ledger-table" aria-label="Transaction ledger table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ledgerBody">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+
+      <div class="actions">
+        <button type="button" id="btnExportCsv" class="btn sm">⬇ Export CSV</button>
+        <button type="button" id="btnResetLedger" class="btn sm">Reset to Sample Ledger</button>
+      </div>
+      <p class="hint">100% private. Cashbook calculations run strictly on your device.</p>
+    </section>
+
+    <!-- Financial Analytics Card -->
+    <section class="card" aria-labelledby="analytics-h">
+      <h2 id="analytics-h">📊 Monthly Cashflow Summary</h2>
+
+      <div class="metric-grid">
+        <div class="metric-box">
+          <div class="metric-lbl">Total Income</div>
+          <div id="resTotalInc" class="metric-val" style="color:var(--income)">$0.00</div>
+          <div class="hint" style="margin:0">Total cash inflows</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-lbl">Total Expenses</div>
+          <div id="resTotalExp" class="metric-val" style="color:var(--expense)">$0.00</div>
+          <div class="hint" style="margin:0">Total cash outflows</div>
+        </div>
+      </div>
+
+      <div class="metric-grid">
+        <div class="metric-box">
+          <div class="metric-lbl">Net Cashflow</div>
+          <div id="resNetSavings" class="metric-val">$0.00</div>
+          <div id="resCashflowLabel" class="hint" style="margin:0">Net surplus</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-lbl">Savings Rate</div>
+          <div id="resSavingsRate" class="metric-val">0.0%</div>
+          <div class="hint" style="margin:0">Target: 20%+</div>
+        </div>
+      </div>
+
+      <label class="lbl">Category Expense Breakdown</label>
+      <div id="categoryBreakdown" style="font-size:.88rem;margin-bottom:12px">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="actions" style="margin-top:14px">
+        <button type="button" id="btnExportJson" class="btn sm">⬇ Export JSON</button>
+        <button type="button" id="btnShareApp" class="btn sm">🔗 Share Cashbook</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ADSENSE START: mid -->
+  <div class="ad-box ad-mid">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2228289204702106" data-ad-slot="1186914926" data-ad-format="rectangle" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <!-- ADSENSE END: mid -->
+
+  <!-- Educational Guide -->
+  <section class="card" aria-labelledby="guide-h">
+    <h2 id="guide-h">📖 Personal Accounting: The Cashbook Principle</h2>
+    <p>A single-entry cashbook records immediate chronological cash inflows and outflows to maintain liquidity awareness and prevent deficit spending:</p>
+    <ul>
+      <li><strong>The Power of Manual Tracking:</strong> Unlike automated bank-sync tools where expenses pass unnoticed, manual entry creates behavioral mindfulness, directly curbing impulse consumption by up to 25%.</li>
+      <li><strong>The 50/30/20 Cashflow Rule:</strong> Allocate 50% of net income to Essential Needs (rent, utilities, groceries), 30% to Discretionary Lifestyle wants (dining, recreation), and a minimum of 20% to Wealth Building &amp; Savings.</li>
+      <li><strong>Net Cashflow vs Net Worth:</strong> Wealth begins with consistent monthly cashflow surpluses. Protecting a positive spread between monthly inflows and outflows is the primary driver of financial security.</li>
+    </ul>
+    <p class="src">Accounting references: Warren E. &amp; Tyagi A. (2005) <em>All Your Worth: The Ultimate Lifetime Money Plan</em>; Weygandt J. (2018) <em>Accounting Principles</em>.</p>
+  </section>
+
+  <section class="card" id="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">❓ Frequently Asked Questions</h2>
+    <div class="faq-item"><h3>How does this cashbook protect my financial privacy?</h3><p>The application runs 100% client-side without bank logins or remote database syncing. All transactions, incomes, and balances reside exclusively inside your device's browser memory.</p></div>
+    <div class="faq-item"><h3>How is the net savings rate computed?</h3><p>The savings rate measures remaining net cashflow as a percentage of total income: (Total Income - Total Expenses) ÷ Total Income × 100.</p></div>
+    <div class="faq-item"><h3>Can I export my financial ledger to CSV or JSON?</h3><p>Yes. You can download your full ledger as a spreadsheet-compatible CSV file or a JSON backup file to archive or analyze in Microsoft Excel or Google Sheets.</p></div>
+    <div class="faq-item"><h3>Does this tool require bank credentials or account linking?</h3><p>No. This tool operates as an intentional manual cashbook. No banking passwords, account numbers, or personal identifying credentials are ever requested.</p></div>
+  </section>
+
+  <section class="card notice" aria-labelledby="note-h">
+    <h2 id="note-h">⚠️ Financial Disclaimer</h2>
+    <p>This cashbook is a personal budgeting utility for self-tracking and educational organization. It does not constitute formal certified public accounting, investment advice, or tax filing counsel.</p>
+  </section>
 </main>
+
+<!-- ADSENSE START: bottom -->
+<div class="ad-box ad-bottom">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2228289204702106" data-ad-slot="3416334507" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<!-- ADSENSE END: bottom -->
+
+<footer class="footer">
+  <p>Free Personal Cashbook &amp; Expense Log · 100% private and client-side.</p>
+  <p><a href="/disclaimer.html">Disclaimer</a> | <a href="/privacy.html">Privacy Policy</a> | <a href="/terms.html">Terms of Service</a></p>
+</footer>
+
+<div id="global-ux-toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- LOGIC START -->
+<script>
+(function () {
+  'use strict';
+  var SITE = 'https://us-simple-personal-cashbook.enjoy-onepage.com';
+  var TOOL_NAME = 'Personal Cashbook & Expense Log';
+  var STORAGE_KEY = 'us_personal_cashbook_txs';
+
+  var isExpense = true;
+  var transactions = [];
+
+  var EXP_CATEGORIES = ['Housing / Rent', 'Groceries & Food', 'Utilities & Bills', 'Transit & Gas', 'Dining & Social', 'Healthcare', 'Shopping / Other'];
+  var INC_CATEGORIES = ['Primary Salary', 'Freelance / Side Gig', 'Investments / Dividends', 'Gifts / Reimbursements', 'Other Income'];
+
+  var SAMPLE_TXS = [
+    { id: 1, date: '2026-10-01', desc: 'Monthly Salary Deposit', type: 'inc', cat: 'Primary Salary', amount: 4200 },
+    { id: 2, date: '2026-10-02', desc: 'Apartment Rent Payment', type: 'exp', cat: 'Housing / Rent', amount: 1450 },
+    { id: 3, date: '2026-10-04', desc: 'Weekly Grocery Market', type: 'exp', cat: 'Groceries & Food', amount: 135.50 },
+    { id: 4, date: '2026-10-08', desc: 'Electric & High-Speed Internet', type: 'exp', cat: 'Utilities & Bills', amount: 110.00 },
+    { id: 5, date: '2026-10-12', desc: 'Freelance Web Design Gig', type: 'inc', cat: 'Freelance / Side Gig', amount: 650 },
+    { id: 6, date: '2026-10-15', desc: 'Weekend Restaurant Dinner', type: 'exp', cat: 'Dining & Social', amount: 64.20 }
+  ];
+
+  function $(id) { return document.getElementById(id); }
+
+  function showToast(msg) {
+    var toast = $('global-ux-toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._tid);
+    toast._tid = setTimeout(function () { toast.classList.remove('show'); }, 2200);
+  }
+
+  function setType(expense) {
+    isExpense = expense;
+    $('btnTypeExp').classList.toggle('active-exp', expense);
+    $('btnTypeExp').setAttribute('aria-checked', expense);
+    $('btnTypeInc').classList.toggle('active-inc', !expense);
+    $('btnTypeInc').setAttribute('aria-checked', !expense);
+
+    var sel = $('txCategory');
+    sel.innerHTML = '';
+    var cats = expense ? EXP_CATEGORIES : INC_CATEGORIES;
+    cats.forEach(function (c) {
+      var opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      sel.appendChild(opt);
+    });
+  }
+
+  function loadTxs() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      transactions = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(SAMPLE_TXS));
+    } catch (e) {
+      transactions = JSON.parse(JSON.stringify(SAMPLE_TXS));
+    }
+
+    var todayStr = new Date().toISOString().split('T')[0];
+    $('txDate').value = todayStr;
+
+    setType(true);
+    renderLedger();
+  }
+
+  function saveTxs() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+    } catch (e) {}
+    renderLedger();
+  }
+
+  function renderLedger() {
+    var tbody = $('ledgerBody');
+    tbody.innerHTML = '';
+
+    if (transactions.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:16px 0">No entries yet. Add your first transaction above.</td></tr>';
+      updateMetrics();
+      return;
+    }
+
+    // Sort by date descending
+    transactions.sort(function (a, b) { return b.date.localeCompare(a.date); });
+
+    transactions.forEach(function (t) {
+      var tr = document.createElement('tr');
+      var isInc = t.type === 'inc';
+
+      tr.innerHTML = '<td>' + t.date + '</td>' +
+        '<td><strong>' + escapeHtml(t.desc) + '</strong></td>' +
+        '<td><span class="' + (isInc ? 'badge-inc' : 'badge-exp') + '">' + escapeHtml(t.cat) + '</span></td>' +
+        '<td style="font-weight:700;color:' + (isInc ? 'var(--income)' : 'var(--expense)') + '">' +
+        (isInc ? '+' : '-') + '$' + parseFloat(t.amount).toFixed(2) + '</td>' +
+        '<td><button type="button" class="del-btn" data-id="' + t.id + '" title="Remove entry">&times;</button></td>';
+
+      tbody.appendChild(tr);
+    });
+
+    var delBtns = tbody.querySelectorAll('.del-btn');
+    delBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = parseInt(this.getAttribute('data-id'), 10);
+        transactions = transactions.filter(function (item) { return item.id !== id; });
+        saveTxs();
+        showToast('Entry removed');
+      });
+    });
+
+    updateMetrics();
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function updateMetrics() {
+    var totalInc = 0;
+    var totalExp = 0;
+    var expCats = {};
+
+    transactions.forEach(function (t) {
+      var amt = parseFloat(t.amount) || 0;
+      if (t.type === 'inc') {
+        totalInc += amt;
+      } else {
+        totalExp += amt;
+        expCats[t.cat] = (expCats[t.cat] || 0) + amt;
+      }
+    });
+
+    $('resTotalInc').textContent = '$' + totalInc.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    $('resTotalExp').textContent = '$' + totalExp.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    var net = totalInc - totalExp;
+    $('resNetSavings').textContent = (net >= 0 ? '+' : '') + '$' + net.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    $('resNetSavings').style.color = net >= 0 ? 'var(--accent)' : 'var(--expense)';
+    $('resCashflowLabel').textContent = net >= 0 ? 'Net positive cashflow' : 'Cashflow deficit';
+
+    var rate = totalInc > 0 ? ((net / totalInc) * 100).toFixed(1) : '0.0';
+    $('resSavingsRate').textContent = rate + '%';
+
+    // Render Breakdown
+    var bDown = $('categoryBreakdown');
+    bDown.innerHTML = '';
+    var catKeys = Object.keys(expCats);
+    if (catKeys.length === 0) {
+      bDown.innerHTML = '<p class="hint" style="margin:4px 0">No expenses recorded.</p>';
+    } else {
+      catKeys.sort(function (a, b) { return expCats[b] - expCats[a]; });
+      catKeys.forEach(function (k) {
+        var row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.padding = '4px 0';
+        row.style.borderBottom = '1px solid #f1f5f9';
+        var pct = totalExp > 0 ? Math.round((expCats[k] / totalExp) * 100) : 0;
+        row.innerHTML = '<span>' + escapeHtml(k) + ' (' + pct + '%):</span><strong>$' + expCats[k].toFixed(2) + '</strong>';
+        bDown.appendChild(row);
+      });
+    }
+  }
+
+  // Event handlers
+  $('btnTypeExp').addEventListener('click', function () { setType(true); });
+  $('btnTypeInc').addEventListener('click', function () { setType(false); });
+
+  $('btnAddTx').addEventListener('click', function () {
+    var desc = $('txDesc').value.trim();
+    var amt = parseFloat($('txAmount').value);
+    if (!desc || isNaN(amt) || amt <= 0) {
+      showToast('Please enter a valid description and amount.');
+      return;
+    }
+    var date = $('txDate').value || new Date().toISOString().split('T')[0];
+    var cat = $('txCategory').value;
+
+    transactions.push({
+      id: Date.now(),
+      date: date,
+      desc: desc,
+      type: isExpense ? 'exp' : 'inc',
+      cat: cat,
+      amount: amt
+    });
+
+    $('txDesc').value = '';
+    $('txAmount').value = '';
+    saveTxs();
+    showToast('Entry recorded: ' + (isExpense ? '-' : '+') + '$' + amt.toFixed(2));
+  });
+
+  $('btnResetLedger').addEventListener('click', function () {
+    transactions = JSON.parse(JSON.stringify(SAMPLE_TXS));
+    saveTxs();
+    showToast('Reset to sample ledger entries');
+  });
+
+  $('btnExportCsv').addEventListener('click', function () {
+    var csv = 'ID,Date,Description,Type,Category,Amount\n';
+    transactions.forEach(function (t) {
+      csv += [t.id, t.date, '"' + t.desc.replace(/"/g, '""') + '"', t.type, '"' + t.cat + '"', t.amount].join(',') + '\n';
+    });
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'personal_cashbook_ledger.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('CSV downloaded');
+  });
+
+  $('btnExportJson').addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(transactions, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'personal_cashbook.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('JSON backup exported');
+  });
+
+  $('btnShareApp').addEventListener('click', function () {
+    var shareMsg = '💵 Free Personal Cashbook & Expense Log\n👉 ' + TOOL_NAME + ': ' + SITE + '/';
+    if (navigator.share) {
+      navigator.share({ title: TOOL_NAME, text: shareMsg, url: SITE + '/' }).catch(function (e) {
+        if (!e || e.name !== 'AbortError') showToast('Link ready to share!');
+      });
+    } else {
+      showToast('Cashbook URL: ' + SITE + '/');
+    }
+  });
+
+  loadTxs();
+})();
+</script>
+<!-- LOGIC END -->
 </body>
 </html>
